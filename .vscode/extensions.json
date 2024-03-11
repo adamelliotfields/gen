@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "biomejs.biome",
+    "bradlc.vscode-tailwindcss",
+    "tamasfe.even-better-toml"
+  ],
+  "unwantedRecommendations": []
+}

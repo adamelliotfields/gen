@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" class="h-full antialiased [font-synthesis:none] [text-rendering:optimizeLegibility]">
+  <head>
+    <title>%VITE_TITLE%</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="%VITE_DESCRIPTION%" />
+    <meta name="theme-color" content="%VITE_THEME_COLOR%" />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="%VITE_HOMEPAGE%" />
+    <!-- open graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="%VITE_HOMEPAGE%" />
+    <meta property="og:title" content="%VITE_TITLE%" />
+    <meta property="og:description" content="%VITE_DESCRIPTION%" />
+    <meta property="og:image" content="%VITE_HOMEPAGE%/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:url" content="%VITE_HOMEPAGE%/og.png" />
+    <meta property="og:image:alt" content="%VITE_TITLE%" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="%VITE_TITLE%" />
+    <!-- twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="%VITE_TITLE%" />
+    <meta property="twitter:description" content="%VITE_DESCRIPTION%" />
+    <meta property="twitter:image" content="%VITE_HOMEPAGE%/og.png" />
+    <meta property="twitter:image:alt" content="%VITE_TITLE%" />
+    <!-- theme -->
+    <script>((t,e)=>{const a=["dark","light","system"],s=a[0],r=a[1],i=a[2],o=e.documentElement,d=t.localStorage,n=t.matchMedia("(prefers-color-scheme: dark)"),m=(...t)=>{const e=JSON.parse(d.getItem(s)),a=t[0]??(e?s:!1===e?r:i),m=t[1]??!0,c=[s,"[&_*]:!transition-none"];return a===s||a===i&&n.matches?o.classList.add(c[0]):o.classList.remove(c[0]),m||(o.classList.add(c[1]),setTimeout((()=>o.classList.remove(c[1])),0)),a};(()=>{const t=m();o.setAttribute("data-theme",t);new MutationObserver((t=>{const{target:e,oldValue:r}=t[0],o=e.getAttribute("data-theme");if(o!==r){if(!a.includes(o))return e.setAttribute("data-theme",i);o===i?d.removeItem(s):d.setItem(s,o===s),m(o,!1)}})).observe(o,{attributeFilter:["data-theme"],attributeOldValue:!0}),n.addEventListener("change",(()=>m(void 0,!1)))})()})(window,document);</script>
+  <body class="h-full text-neutral-900 bg-neutral-50 dark:text-neutral-100 dark:bg-neutral-950">
+    <div class="h-full" id="root"></div>
+    <script>
+      // https://github.com/rafgraph/spa-github-pages
+      ;(function({ search, pathname, hash }, history) {
+        if (search[1] === '/' ) {
+          const decoded = search.slice(1).split('&').map((s) => s.replace(/~and~/g, '&')).join('?')
+          history.replaceState(null, null, pathname.slice(0, -1) + decoded + hash)
+        }
+      }(window.location, window.history))
+    </script>
+    <script src="./src/index.tsx" type="module"></script>
+  </body>
+</html>
