@@ -29,6 +29,13 @@ jobs:
         run: bun run test
       - name: Build with Vite
         run: bun run build
+        env:
+          VITE_FAL_API_URL: ${{ secrets.VITE_FAL_API_URL }}
+          VITE_FAL_API_KEY: ${{ secrets.VITE_FAL_API_KEY }}
+          VITE_HF_API_URL: ${{ secrets.VITE_HF_API_URL }}
+          VITE_HF_API_KEY: ${{ secrets.VITE_HF_API_KEY }}
+          VITE_STABILITY_API_URL: ${{ secrets.VITE_STABILITY_API_URL }}
+          VITE_STABILITY_API_KEY: ${{ secrets.VITE_STABILITY_API_KEY }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
