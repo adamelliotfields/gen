@@ -7,7 +7,23 @@ const config = {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   plugins: [containers, forms, typography],
-  theme: { extend: {} }
+  theme: {
+    extend: {
+      typography: (_) => ({
+        DEFAULT: {
+          css: {
+            // remove backticks
+            'code::before': {
+              content: '""'
+            },
+            'code::after': {
+              content: '""'
+            }
+          }
+        }
+      })
+    }
+  }
 }
 
 export default config
