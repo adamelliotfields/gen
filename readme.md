@@ -35,11 +35,11 @@ bun start
 
 ## Secrets
 
-- `VITE_FAL_API_URL` - Alternate URL (proxy) for the Fal.ai API (default: `https://fal.run`)
-- `VITE_FAL_API_KEY` - Fal.ai API key (default: `undefined`)
-- `VITE_HF_API_URL` - Alternate URL (proxy) for the Hugging Face API (default: `https://api-inference.huggingface.co`)
-- `VITE_HF_API_KEY` - Hugging Face API key (default: `undefined`)
-- `VITE_STABILITY_API_URL` - Alternate URL (proxy) for the Stability.ai API (default: `https://api.stability.ai`)
-- `VITE_STABILITY_API_KEY` - Stability.ai API key (default: `undefined`)
+- `VITE_FAL_URL` - Alternate URL (proxy) for the Fal.ai API (default: `https://fal.run`)
+- `VITE_FAL_KEY` - Fal.ai API key (default: `undefined`)
+- `VITE_HF_URL` - Alternate URL (proxy) for the Hugging Face API (default: `https://api-inference.huggingface.co`)
+- `VITE_HF_KEY` - Hugging Face API key (default: `undefined`)
+- `VITE_STABILITY_URL` - Alternate URL (proxy) for the Stability.ai API (default: `https://api.stability.ai`)
+- `VITE_STABILITY_KEY` - Stability.ai API key (default: `undefined`)
 
 See [`.env`](./.env) for app settings. You can put the above in `.env.local` during development.

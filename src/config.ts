@@ -28,11 +28,11 @@ export interface Config {
 
 const {
   VITE_FAL_URL,
-  VITE_FAL_API_KEY,
+  VITE_FAL_KEY,
   VITE_HF_URL,
-  VITE_HF_API_KEY,
+  VITE_HF_KEY,
   VITE_STABILITY_URL,
-  VITE_STABILITY_API_KEY
+  VITE_STABILITY_KEY
 } = import.meta.env
 
 const falModel = 'fal-ai/fast-sdxl'
@@ -81,21 +81,21 @@ const config: Config = {
   ]
 }
 
-if (VITE_HF_API_KEY) {
+if (VITE_HF_KEY) {
   config.servers[0].headers = {
-    Authorization: `Bearer ${VITE_HF_API_KEY}`
+    Authorization: `Bearer ${VITE_HF_KEY}`
   }
 }
 
-if (VITE_FAL_API_KEY) {
+if (VITE_FAL_KEY) {
   config.servers[1].headers = {
-    Authorization: `Bearer ${VITE_FAL_API_KEY}`
+    Authorization: `Bearer ${VITE_FAL_KEY}`
   }
 }
 
-if (VITE_STABILITY_API_KEY) {
+if (VITE_STABILITY_KEY) {
   config.servers[2].headers = {
-    Authorization: `Bearer ${VITE_STABILITY_API_KEY}`
+    Authorization: `Bearer ${VITE_STABILITY_KEY}`
   }
 }
 
