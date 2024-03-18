@@ -1,6 +1,5 @@
 import { Router } from 'wouter'
 
-import Footer from './components/Footer'
 import Header from './components/Header'
 import Main from './components/Main'
 
@@ -12,7 +11,6 @@ export default function App() {
     <Router base={PROD && base !== '/' ? base : undefined}>
       <Header />
       <Main />
-      <Footer />
     </Router>
   )
 }

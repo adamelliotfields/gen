@@ -19,7 +19,7 @@ export default function Container({
   return (
     <Component
       className={clsx(
-        'flex w-full max-w-screen-lg mx-auto p-4',
+        'h-full w-full max-w-screen-lg mx-auto',
         border && 'border-neutral-300 md:border-x dark:border-neutral-700',
         className
       )}
