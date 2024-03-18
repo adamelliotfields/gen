@@ -12,7 +12,12 @@ export default defineConfig(({ mode }) => {
     base: mode === 'production' ? base : '/',
     build: { target: 'esnext' },
     plugins: [
-      react({ plugins: [['@swc-jotai/react-refresh', {}]] }),
+      react({
+        plugins: [
+          ['@swc-jotai/debug-label', {}],
+          ['@swc-jotai/react-refresh', {}]
+        ]
+      }),
       splitVendorChunkPlugin()
     ]
   }

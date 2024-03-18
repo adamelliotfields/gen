@@ -63,20 +63,20 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
   return (
     <header
       className={clsx(
-        'border-b sticky top-0 bg-neutral-50 border-neutral-300',
+        'sticky top-0 bg-neutral-50 border-b border-neutral-300 z-20',
         'dark:bg-neutral-950 dark:border-neutral-700',
         className
       )}
       {...rest}
     >
-      <Container className="h-14 items-center justify-between" border>
+      <Container className="h-14 p-4 flex items-center justify-between" border>
         {/* brand logo */}
         <a href={VITE_HOMEPAGE} className="font-bold font-serif text-xl tracking-wide">
-          {VITE_TITLE}
+          {`🖼️ ${VITE_TITLE}`}
         </a>
         {/* desktop links */}
         {hasLinks && (
-          <div className="hidden md:flex md:space-x-4 md:mr-16">
+          <div className="hidden md:mr-16 md:flex md:space-x-4">
             {links.map(({ children, href }) => (
               <HeaderLink key={href} href={href}>
                 {children}
@@ -140,7 +140,7 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
       {/* mobile menu */}
       {hasLinks && (
         <div className={clsx('md:hidden', open ? 'block' : 'hidden')} id="mobile-menu">
-          <div className="flex flex-col space-y-2 px-4 pb-4">
+          <div className="pb-4 px-4 flex flex-col space-y-2">
             {links.map(({ children, href }) => (
               <HeaderLink key={href} href={href}>
                 {children}
