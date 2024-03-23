@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { Menu, Moon, Sun, X } from 'lucide-react'
+import { Computer, Menu, Moon, Sun, X } from 'lucide-react'
 import { type HTMLAttributes, useEffect, useState } from 'react'
 import { Link, useRoute } from 'wouter'
 
@@ -71,7 +71,7 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
     >
       <Container className="h-14 p-4 flex items-center justify-between" border>
         {/* brand logo */}
-        <a href={VITE_HOMEPAGE} className="font-bold font-serif text-xl tracking-wide">
+        <a href={VITE_HOMEPAGE} className="font-bold font-mono text-xl tracking-wide">
           {`🖼️ ${VITE_TITLE}`}
         </a>
         {/* desktop links */}
@@ -85,7 +85,7 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
           </div>
         )}
         {/* icon buttons */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
           {/* mobile menu toggle button */}
           {hasLinks && (
             <button
@@ -103,36 +103,52 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
               )}
             </button>
           )}
-          {/* light/system theme toggle */}
+          {/* light theme toggle */}
           <button
             type="button"
-            onClick={() =>
-              setTheme((oldTheme) => (oldTheme === 'light' ? 'system' : 'light'))
-            }
+            onClick={() => setTheme('light')}
             aria-label="Toggle light mode"
           >
             <Sun
-              className={
+              size="1em"
+              className={clsx(
+                'text-[20px]',
                 theme === 'light'
                   ? 'text-neutral-900'
                   : 'text-neutral-400 dark:text-neutral-600'
-              }
+              )}
             />
           </button>
-          {/* dark/system theme toggle */}
+          {/* dark theme toggle */}
           <button
             type="button"
-            onClick={() =>
-              setTheme((oldTheme) => (oldTheme === 'dark' ? 'system' : 'dark'))
-            }
+            onClick={() => setTheme('dark')}
             aria-label="Toggle dark mode"
           >
             <Moon
-              className={
+              size="1em"
+              className={clsx(
+                'text-[20px]',
                 theme === 'dark'
                   ? 'text-neutral-100'
                   : 'text-neutral-400 dark:text-neutral-600'
-              }
+              )}
+            />
+          </button>
+          {/* system theme toggle */}
+          <button
+            type="button"
+            onClick={() => setTheme('system')}
+            aria-label="Use system theme"
+          >
+            <Computer
+              size="1em"
+              className={clsx(
+                'text-[20px]',
+                theme === 'system'
+                  ? 'text-neutral-900'
+                  : 'text-neutral-400 dark:text-neutral-600'
+              )}
             />
           </button>
         </div>
