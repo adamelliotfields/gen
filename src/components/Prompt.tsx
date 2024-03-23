@@ -5,6 +5,7 @@ import { Disc3, Info, Send } from 'lucide-react'
 
 import {
   aspectRatioIndexAtom,
+  errorAtom,
   fetchImageAtom,
   guidanceScaleAtom,
   imageUrlAtom,
@@ -18,20 +19,21 @@ export default function Prompt() {
   const [prompt, setPrompt] = useAtom(promptAtom)
   const loading = useAtomValue(loadingAtom)
 
-  const setNegativePrompt = useSetAtom(negativePromptAtom)
-  const setInferenceSteps = useSetAtom(inferenceStepsAtom)
-  const setGuidanceScale = useSetAtom(guidanceScaleAtom)
   const setAspectRatioIndex = useSetAtom(aspectRatioIndexAtom)
+  const setError = useSetAtom(errorAtom)
+  const setGuidanceScale = useSetAtom(guidanceScaleAtom)
   const setImageUrl = useSetAtom(imageUrlAtom)
-
+  const setInferenceSteps = useSetAtom(inferenceStepsAtom)
+  const setNegativePrompt = useSetAtom(negativePromptAtom)
   const fetchImage = useSetAtom(fetchImageAtom)
 
   const canSubmit = !loading && prompt.trim().length > 0
 
   const handleResetClick = () => {
+    setError(null)
     setImageUrl(null)
-    setPrompt('')
     setNegativePrompt('')
+    setPrompt('')
     setAspectRatioIndex(RESET)
     setInferenceSteps(RESET)
     setGuidanceScale(RESET)
