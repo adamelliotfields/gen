@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useAtom, useAtomValue } from 'jotai'
 import { ChevronDown, ChevronRight } from 'lucide-react'
-import { type HTMLAttributes, type SyntheticEvent } from 'react'
+import { type HTMLAttributes, type SyntheticEvent, useState } from 'react'
 
 import {
   aspectRatioAtom,
@@ -12,14 +12,14 @@ import {
   negativePromptAtom,
   serverAtom,
   serverConfigAtom,
-  settingsOpenAtom,
   sizeAtom
 } from '../atoms'
 
 import config, { Setting } from '../config'
 
 export default function Settings() {
-  const [settingsOpen, setSettingsOpen] = useAtom(settingsOpenAtom)
+  const [settingsOpen, setSettingsOpen] = useState(false)
+
   const [server, setServer] = useAtom(serverAtom)
   const [model, setModel] = useAtom(modelAtom)
   const [aspectRatioIndex, setAspectRatioIndex] = useAtom(aspectRatioIndexAtom)
@@ -56,15 +56,15 @@ export default function Settings() {
   return (
     <>
       <button
-        className="mt-4 w-fit flex items-center font-semibold text-neutral-700 dark:text-neutral-300"
+        className="w-fit flex items-center font-semibold text-base text-neutral-700 dark:text-neutral-300 md:text-lg"
         type="button"
         onClick={handleClick}
       >
         <span className="mr-0.5">Settings</span>
         {settingsOpen ? (
-          <ChevronDown className="text-[20px]" size="1em" />
+          <ChevronDown className="text-[16px] md:text-[20px]" size="1em" />
         ) : (
-          <ChevronRight className="text-[20px]" size="1em" />
+          <ChevronRight className="text-[16px] md:text-[20px]" size="1em" />
         )}
       </button>
       {settingsOpen && (
@@ -73,14 +73,14 @@ export default function Settings() {
             {/* API server */}
             <div className="w-full">
               <SettingsLabel htmlFor="negativePrompt">API</SettingsLabel>
-              <div className="flex items-center">
+              <div className="flex items-center text-sm md:text-base">
                 <img
                   src={config.servers.find((s) => s.name === server)?.icon}
                   alt={server}
-                  className="h-[42px] p-2 inline-block rounded-l-sm bg-neutral-100 dark:bg-neutral-800"
+                  className="h-[36px] p-2 inline-block rounded-l-sm bg-neutral-100 dark:bg-neutral-800 md:h-[42px]"
                 />
                 <select
-                  className="h-[42px] w-full rounded-r-sm border-none font-mono text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800"
+                  className="h-[36px] w-full rounded-r-sm border-none font-mono text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800 md:h-[42px]"
                   name="api"
                   id="api"
                   value={server}
@@ -94,12 +94,13 @@ export default function Settings() {
                 </select>
               </div>
             </div>
+
             {/* Model */}
             <div className="w-full mt-4 md:mt-0">
               <SettingsLabel htmlFor="model">Model</SettingsLabel>
               <select
                 id="model"
-                className="h-[42px] w-full rounded-sm border-none font-mono text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800"
+                className="h-[36px] w-full rounded-sm border-none font-mono text-sm text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800 md:h-[42px] md:text-base"
                 value={model ?? ''}
                 onChange={handleModelChange}
               >
@@ -111,12 +112,13 @@ export default function Settings() {
               </select>
             </div>
           </div>
+
           {/* Size */}
           {hasSize && (
             <div className="w-full">
               <SettingsLabel htmlFor="aspect-ratio">
                 Size:&nbsp;
-                <span className="font-mono text-neutral-600 dark:text-neutral-400">
+                <span className="font-mono text-neutral-900 dark:text-neutral-100">
                   {`${width}x${height} (${aspectRatio})`}
                 </span>
               </SettingsLabel>
@@ -133,12 +135,12 @@ export default function Settings() {
             </div>
           )}
 
-          <div className="flex flex-wrap items-center md:flex-nowrap">
+          {/* Guidance scale */}
+          <div className="flex flex-wrap md:flex-nowrap">
             {(hasGuidanceScale || hasInferenceSteps) && (
-              <div className="flex space-x-4 md:order-2">
-                {/* Guidance scale */}
+              <div className="w-full flex space-x-4 md:w-fit md:order-2">
                 {hasGuidanceScale && (
-                  <div>
+                  <div className="w-full">
                     <SettingsLabel htmlFor="guidance-scale">
                       Guidance Scale
                     </SettingsLabel>
@@ -155,9 +157,10 @@ export default function Settings() {
                     />
                   </div>
                 )}
+
                 {/* Inference steps */}
                 {hasInferenceSteps && (
-                  <div>
+                  <div className="w-full">
                     <SettingsLabel htmlFor="inference-steps">
                       Inference Steps
                     </SettingsLabel>
@@ -176,6 +179,7 @@ export default function Settings() {
                 )}
               </div>
             )}
+
             {/* Negative prompt */}
             {hasNegativePrompt && (
               <div
@@ -184,11 +188,12 @@ export default function Settings() {
                 })}
               >
                 <SettingsLabel htmlFor="negativePrompt">Negative Prompt</SettingsLabel>
+                {/* Text area */}
                 <textarea
-                  className="h-[42px] w-full rounded-sm border-none resize-none font-mono text-neutral-900 bg-neutral-100 placeholder:text-neutral-400 dark:text-neutral-100 dark:bg-neutral-800"
+                  className="h-[36px] w-full rounded-sm border-none resize-none font-mono text-sm text-neutral-900 bg-neutral-100 placeholder:text-neutral-400 dark:text-neutral-100 dark:bg-neutral-800 md:h-[42px] md:text-base"
                   value={negativePrompt}
                   onChange={(e) => setNegativePrompt(e.target.value)}
-                  placeholder="ugly, too many fingers"
+                  placeholder="bad, ugly"
                 />
               </div>
             )}
@@ -221,7 +226,7 @@ function SettingsNumberInput({
     <input
       type="number"
       id={id}
-      className="h-[42px] w-full rounded-sm border-none font-mono text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800"
+      className="h-[42px] w-full rounded-sm border-none font-mono text-sm text-neutral-900 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-800 md:text-base"
       min={min}
       max={max}
       step={step}
@@ -240,7 +245,7 @@ function SettingsLabel({ htmlFor, children, ...rest }: SettingsLabelProps) {
   return (
     <label
       htmlFor={htmlFor}
-      className="text-sm font-medium text-neutral-700 dark:text-neutral-300"
+      className="text-sm font-medium text-neutral-700 dark:text-neutral-300 md:text-base"
       {...rest}
     >
       {children}
