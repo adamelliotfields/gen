@@ -1,9 +1,12 @@
 import clsx from 'clsx'
 import { useAtomValue } from 'jotai'
+import { ExternalLink } from 'lucide-react'
 import type { HTMLAttributes, PropsWithChildren } from 'react'
 
 import { errorAtom, imageUrlAtom, loadingAtom, sizeAtom } from '../atoms'
+import Examples from './Examples'
 
+// "markdown"
 const data = [
   ['Welcome! 👋'],
   [
@@ -22,7 +25,10 @@ const data = [
     ['Stability.ai', 'https://stability.ai'],
     ' .'
   ],
-  ['Enter a prompt below 👇 or start with an example. Have fun!']
+  [
+    'Start with an example below, customize the prompt, and explore the settings.',
+    ' Have fun! 🎨'
+  ]
 ]
 
 export default function Display() {
@@ -46,7 +52,24 @@ export default function Display() {
 
   // no error, has image
   if (!loading && !error && imageUrl !== null) {
-    return <img src={imageUrl} className="max-h-full max-w-full" alt="Generated" />
+    return (
+      <div className="h-full">
+        <div className="h-full relative group">
+          <a
+            href={imageUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute top-4 right-4"
+          >
+            <ExternalLink
+              size="1em"
+              className="transition-colors text-[24px] text-transparent group-hover:text-white"
+            />
+          </a>
+          <img src={imageUrl} className="max-h-full max-w-full" alt="Generated" />
+        </div>
+      </div>
+    )
   }
 
   // loading or initial state
@@ -69,6 +92,7 @@ export default function Display() {
           ))}
         </DisplayProse>
       )}
+      <Examples className="mt-8" />
     </DisplayWrapper>
   )
 }

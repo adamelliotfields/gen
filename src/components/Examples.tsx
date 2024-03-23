@@ -1,114 +1,56 @@
-import { useAtom, useSetAtom } from 'jotai'
-import { ChevronDown, ChevronRight } from 'lucide-react'
+import clsx from 'clsx'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { type HTMLAttributes, type SyntheticEvent } from 'react'
 
-import {
-  aspectRatioIndexAtom,
-  examplesOpenAtom,
-  guidanceScaleAtom,
-  inferenceStepsAtom,
-  negativePromptAtom,
-  promptAtom
-} from '../atoms'
+import EXAMPLES from '../examples'
 
-type ButtonProps = HTMLAttributes<HTMLButtonElement>
+import { fetchImageAtom, fillExampleAtom, loadingAtom } from '../atoms'
 
-const EXAMPLES = [
-  {
-    children: '🌅 sunset painting',
-    prompt:
-      'Oil painting of a sunset over the ocean with orange and pink hues, gently rolling waves, and palm trees, heavily textured brushstrokes, dramatic lighting',
-    negative: 'birds',
-    guidance: 7.5,
-    steps: 30,
-    aspect: 2 // 1:1
-  },
-  {
-    children: '🏠 modern room',
-    prompt:
-      '3D rendering of a contemporary living room with large windows, mid-century furnishings, neutral tones, high detail',
-    negative: 'high ceiling, clutter',
-    guidance: 10,
-    steps: 40,
-    aspect: 4 // 16:9
-  },
-  {
-    children: '🧔‍♂️ future soldier',
-    prompt:
-      'Portrait of bearded man wearing a worn mech suit, futuristic, sharp focus, light bokeh, photorealistic',
-    negative: 'helmet, ugly',
-    guidance: 12.5,
-    steps: 50,
-    aspect: 0 // 9:16
-  },
-  {
-    children: '🐈 winter cat',
-    prompt:
-      'Gorgeous cat with medium-length orange hair and light-yellow eyes under falling snow looking at the camera, slow exposure, 8k',
-    negative: 'lynx ears, collar',
-    guidance: 12.5,
-    steps: 50,
-    aspect: 3 // 4:3
-  }
-]
+export type ExamplesProps = HTMLAttributes<HTMLDivElement>
 
-export default function Examples() {
-  const [examplesOpen, setExamplesOpen] = useAtom(examplesOpenAtom)
-  const setPrompt = useSetAtom(promptAtom)
-  const setNegativePrompt = useSetAtom(negativePromptAtom)
-  const setGuidanceScale = useSetAtom(guidanceScaleAtom)
-  const setInferenceSteps = useSetAtom(inferenceStepsAtom)
-  const setAspectRatioIndex = useSetAtom(aspectRatioIndexAtom)
+export default function Examples({ className, ...rest }: ExamplesProps) {
+  const loading = useAtomValue(loadingAtom)
+  const fetchImage = useSetAtom(fetchImageAtom)
+  const fillExample = useSetAtom(fillExampleAtom)
 
-  const handleClick = () => {
-    setExamplesOpen(!examplesOpen)
-  }
-
-  const handleExampleClick = (event: SyntheticEvent<HTMLButtonElement>) => {
+  const handleExampleClick = async (event: SyntheticEvent<HTMLButtonElement>) => {
+    if (loading) return
     const example = EXAMPLES.find(
       (e) => e.children === event.currentTarget.textContent
     ) as (typeof EXAMPLES)[number]
-    setPrompt(example.prompt)
-    setNegativePrompt(example.negative)
-    setGuidanceScale(example.guidance)
-    setInferenceSteps(example.steps)
-    setAspectRatioIndex(example.aspect)
+    fillExample(example)
+    await fetchImage()
   }
 
   return (
-    <>
-      <button
-        className="w-fit flex items-center font-semibold text-neutral-700 dark:text-neutral-300"
-        type="button"
-        onClick={handleClick}
-      >
-        Examples
-        {examplesOpen ? (
-          <ChevronDown className="text-[20px]" size="1em" />
-        ) : (
-          <ChevronRight className="text-[20px]" size="1em" />
-        )}
-      </button>
-      {examplesOpen && (
-        <div className="p-4">
-          <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
-            {EXAMPLES.map(({ children }) => (
-              <ExamplesButton key={children} onClick={handleExampleClick}>
-                {children}
-              </ExamplesButton>
-            ))}
-          </div>
-        </div>
-      )}
-    </>
+    <div className={clsx('grid gap-4 grid-cols-2 md:grid-cols-4', className)} {...rest}>
+      {EXAMPLES.map(({ children }) => (
+        <ExamplesButton key={children} onClick={handleExampleClick} loading={loading}>
+          {children}
+        </ExamplesButton>
+      ))}
+    </div>
   )
 }
 
-function ExamplesButton({ children, ...rest }: ButtonProps) {
+interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+  loading?: boolean
+}
+
+function ExamplesButton({ children, loading = false, ...rest }: ButtonProps) {
   return (
     <button
-      className="px-1 py-2 w-full flex items-center justify-center rounded-md font-medium text-sm text-neutral-600 bg-neutral-100 shadow-sm active:shadow-none active:scale-[0.9875] dark:text-neutral-400 dark:bg-neutral-900"
+      className={clsx(
+        'px-1 py-2 w-full flex items-center justify-center rounded-md font-medium text-sm shadow-sm active:shadow-none active:scale-[0.9875] md:text-base',
+        {
+          'text-neutral-600 bg-neutral-100 dark:text-neutral-400 dark:bg-neutral-900':
+            !loading,
+          'cursor-not-allowed text-neutral-600/75 bg-neutral-100/75 dark:text-neutral-400/75 dark:bg-neutral-800/75':
+            loading
+        }
+      )}
       type="button"
+      title={loading ? 'Loading...' : undefined}
       {...rest}
     >
       {children}
