@@ -25,6 +25,12 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
 
   const hasLinks = Array.isArray(links) && links.length > 0
 
+  const themes = [
+    { name: 'light' as const, icon: Sun, label: 'Use light theme' },
+    { name: 'dark' as const, icon: Moon, label: 'Use dark theme' },
+    { name: 'system' as const, icon: Computer, label: 'Use system theme' }
+  ]
+
   const toggleMenu = () => {
     setOpen(!open)
   }
@@ -103,54 +109,24 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
               )}
             </button>
           )}
-          {/* light theme toggle */}
-          <button
-            type="button"
-            onClick={() => setTheme('light')}
-            aria-label="Toggle light mode"
-          >
-            <Sun
-              size="1em"
-              className={clsx(
-                'text-[20px]',
-                theme === 'light'
-                  ? 'text-neutral-900'
-                  : 'text-neutral-400 dark:text-neutral-600'
-              )}
-            />
-          </button>
-          {/* dark theme toggle */}
-          <button
-            type="button"
-            onClick={() => setTheme('dark')}
-            aria-label="Toggle dark mode"
-          >
-            <Moon
-              size="1em"
-              className={clsx(
-                'text-[20px]',
-                theme === 'dark'
-                  ? 'text-neutral-100'
-                  : 'text-neutral-400 dark:text-neutral-600'
-              )}
-            />
-          </button>
-          {/* system theme toggle */}
-          <button
-            type="button"
-            onClick={() => setTheme('system')}
-            aria-label="Use system theme"
-          >
-            <Computer
-              size="1em"
-              className={clsx(
-                'text-[20px]',
-                theme === 'system'
-                  ? 'text-neutral-900'
-                  : 'text-neutral-400 dark:text-neutral-600'
-              )}
-            />
-          </button>
+          {themes.map(({ name, label, icon: Icon }) => (
+            <button
+              key={name}
+              type="button"
+              onClick={() => setTheme(name)}
+              aria-label={label}
+            >
+              <Icon
+                size="1em"
+                className={clsx(
+                  'text-[20px]',
+                  theme === name
+                    ? 'text-neutral-900 dark:text-neutral-100'
+                    : 'text-neutral-400 dark:text-neutral-600'
+                )}
+              />
+            </button>
+          ))}
         </div>
       </Container>
       {/* mobile menu */}
