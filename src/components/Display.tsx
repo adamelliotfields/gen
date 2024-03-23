@@ -19,13 +19,6 @@ const data = [
     ' .'
   ],
   [
-    "If you're new to image generation, read the ",
-    ['Basics of Prompt Engineering', 'https://dreamstudio.ai/prompt-guide'],
-    ' from ',
-    ['Stability.ai', 'https://stability.ai'],
-    ' .'
-  ],
-  [
     'Start with an example below, customize the prompt, and explore the settings.',
     ' Have fun! 🎨'
   ]
@@ -53,21 +46,19 @@ export default function Display() {
   // no error, has image
   if (!loading && !error && imageUrl !== null) {
     return (
-      <div className="h-full">
-        <div className="h-full relative group">
-          <a
-            href={imageUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute top-4 right-4"
-          >
-            <ExternalLink
-              size="1em"
-              className="transition-colors text-[24px] text-transparent group-hover:text-white"
-            />
-          </a>
-          <img src={imageUrl} className="max-h-full max-w-full" alt="Generated" />
-        </div>
+      <div className="h-full relative group">
+        <a
+          href={imageUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute top-4 right-4"
+        >
+          <ExternalLink
+            size="1em"
+            className="transition-colors text-[24px] text-transparent group-hover:text-white"
+          />
+        </a>
+        <img src={imageUrl} className="max-h-full max-w-full" alt="Generated" />
       </div>
     )
   }
