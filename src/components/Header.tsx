@@ -5,10 +5,13 @@ import { Link, useRoute } from 'wouter'
 
 import Container from './Container'
 
-const themes = ['dark', 'light', 'system'] as const
-type Theme = (typeof themes)[number]
+const THEMES = [
+  { name: 'light' as const, icon: Sun, label: 'Use light theme' },
+  { name: 'dark' as const, icon: Moon, label: 'Use dark theme' },
+  { name: 'system' as const, icon: Computer, label: 'Use system theme' }
+]
 
-const { VITE_HOMEPAGE, VITE_TITLE } = import.meta.env
+type Theme = (typeof THEMES)[number]
 
 interface HeaderLinkType {
   href: string
@@ -19,20 +22,19 @@ export interface HeaderProps extends HTMLAttributes<HTMLDivElement> {
   links?: HeaderLinkType[]
 }
 
+const { VITE_HOMEPAGE, VITE_TITLE } = import.meta.env
+
+const DEFAULT_THEME = THEMES[2] // system
+
 export default function Header({ className, links, ...rest }: HeaderProps) {
   const [theme, setTheme] = useState<Theme | null>(null)
   const [open, setOpen] = useState(false)
 
   const hasLinks = Array.isArray(links) && links.length > 0
 
-  const themes = [
-    { name: 'light' as const, icon: Sun, label: 'Use light theme' },
-    { name: 'dark' as const, icon: Moon, label: 'Use dark theme' },
-    { name: 'system' as const, icon: Computer, label: 'Use system theme' }
-  ]
-
-  const toggleMenu = () => {
-    setOpen(!open)
+  const getThemeByName = (name: Theme['name']) => {
+    const result = THEMES.find((t) => t.name === name)
+    return result ?? DEFAULT_THEME
   }
 
   // set the data-theme attribute when `theme` changes
@@ -40,12 +42,12 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
     const el = document.documentElement // <html>
 
     if (theme !== null) {
-      el.setAttribute('data-theme', theme)
+      el.setAttribute('data-theme', theme.name)
     } else {
-      const data = el.getAttribute('data-theme') as Theme
-      if (data !== theme) setTheme(data)
+      const data = el.getAttribute('data-theme') as Theme['name']
+      if (data !== theme) setTheme(getThemeByName(data))
     }
-  }, [theme])
+  }, [getThemeByName, theme])
 
   // listen for changes to LocalStorage
   useEffect(() => {
@@ -56,7 +58,7 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
         dark = JSON.parse(window.localStorage.getItem('dark') as string)
       } catch {}
       const storage = dark !== null ? 'dark' : dark === false ? 'light' : 'system'
-      setTheme(storage)
+      setTheme(getThemeByName(storage))
     }
 
     // attach the handler and remove on unmount
@@ -64,18 +66,18 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
     return () => {
       window.removeEventListener('storage', handler)
     }
-  }, [])
+  }, [getThemeByName])
 
   return (
     <header
       className={clsx(
-        'sticky top-0 bg-neutral-50 border-b border-neutral-300 z-20',
-        'dark:bg-neutral-950 dark:border-neutral-700',
+        'z-20 sticky top-0 bg-neutral-50 dark:bg-neutral-950',
+        'border-b border-neutral-300 dark:border-neutral-700',
         className
       )}
       {...rest}
     >
-      <Container className="h-14 p-4 flex items-center justify-between" border>
+      <Container className="h-14 p-4 flex items-center justify-between">
         {/* brand logo */}
         <a href={VITE_HOMEPAGE} className="font-bold font-mono text-xl tracking-wide">
           {`🖼️ ${VITE_TITLE}`}
@@ -96,7 +98,7 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
           {hasLinks && (
             <button
               type="button"
-              onClick={toggleMenu}
+              onClick={() => setOpen(!open)}
               className="flex md:hidden"
               aria-controls="mobile-menu"
               aria-expanded={open}
@@ -109,18 +111,18 @@ export default function Header({ className, links, ...rest }: HeaderProps) {
               )}
             </button>
           )}
-          {themes.map(({ name, label, icon: Icon }) => (
+          {THEMES.map(({ name, label, icon: Icon }) => (
             <button
               key={name}
               type="button"
-              onClick={() => setTheme(name)}
+              onClick={() => setTheme(getThemeByName(name))}
               aria-label={label}
             >
               <Icon
                 size="1em"
                 className={clsx(
                   'text-[20px]',
-                  theme === name
+                  theme === null || theme.name === name
                     ? 'text-neutral-900 dark:text-neutral-100'
                     : 'text-neutral-400 dark:text-neutral-600'
                 )}
