@@ -5,11 +5,11 @@
   "background_color": "#000000",
   "theme_color": "#000000",
   "display": "fullscreen",
-  "start_url": "/gen",
-  "scope": "/gen",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
-      "src": "/gen/android-chrome-192x192.png",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     }

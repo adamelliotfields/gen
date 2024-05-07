@@ -3,7 +3,7 @@
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/adamelliotfields/gen?devcontainer_path=.devcontainer/devcontainer.json&machine=basicLinux32gb)
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://pr.new/adamelliotfields/gen)
 
-My image generation web UI, hosted on GitHub Pages: [aef.me/gen](https://aef.me/gen/)
+My image generation web UI, hosted on GitHub Pages: [gen.aef.me](https://gen.aef.me)
 
 ## Features
 

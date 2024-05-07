@@ -1,18 +1,8 @@
 {
-  "name": "gen",
   "build": { "dockerfile": "Dockerfile" },
-  "postCreateCommand": "bun install",
+  "postCreateCommand": "bun install --frozen-lockfile",
   "waitFor": "postCreateCommand",
   "forwardPorts": [4173, 5173],
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "biomejs.biome",
-        "bradlc.vscode-tailwindcss",
-        "tamasfe.even-better-toml"
-      ]
-    }
-  },
   "containerEnv": {
     "GH_TOKEN": "${localEnv:GH_TOKEN}"
   }
