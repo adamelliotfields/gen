@@ -7,7 +7,6 @@
     "start": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview --host",
-    "test": "VITE_SEED=42 bun test",
     "lint": "biome ci .",
     "clean": "rm -rf .node_modules/.vite .swc dist"
   },
